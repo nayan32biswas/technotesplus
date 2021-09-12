@@ -1,0 +1,259 @@
+@import "./ant-override.scss";
+@import "./colors";
+@import "./fonts";
+@import "./variables";
+@import "./mixins";
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  font-family: $primary-font;
+  font-size: $font-r;
+  // background: $backgroundColor;
+}
+
+#externalshop {
+  font-size: $font-r;
+  color: $darkColor;
+  // background: $backgroundColor;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+// .container {
+//   margin: auto;
+//   width: 80%;
+//   max-width: 1200px;
+
+//   @media (max-width: 993px) {
+//     width: 85%;
+//   }
+//   @media (max-width: 767.98px) {
+//     width: 90%;
+//   }
+// }
+
+textarea:focus,
+textarea.form-control:focus,
+input.form-control:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+[type="text"].form-control:focus,
+[type="password"].form-control:focus,
+[type="email"].form-control:focus,
+[type="tel"].form-control:focus,
+[contenteditable].form-control:focus {
+  box-shadow: none !important;
+  border-width: 2px;
+  border-color: $primaryColor;
+  border-right-width: 2px !important;
+  transition: all 0.2s ease-in-out;
+}
+
+button {
+  outline: none;
+}
+// iframe
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #999;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $primaryColor;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h5 {
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+////////////////////////// LOGO /////////////////////////////
+
+.logo {
+  position: relative;
+
+  &-icon {
+    font-size: 12px;
+  }
+
+  &-avatar {
+    display: flex;
+    transition: all 0.4s ease-in-out 0s;
+
+    .ant-avatar {
+      min-width: 40px;
+      background: $primaryColor;
+      color: $whiteColor;
+    }
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 30px;
+    }
+
+    p {
+      margin-bottom: 0;
+      margin-left: 10px;
+
+      span {
+        font-size: 20px;
+        font-weight: 500;
+        color: $whiteColor;
+
+        &:last-child {
+          color: $primaryColor;
+        }
+      }
+    }
+  }
+}
+
+////////////////// Sign in and Sign up ///////////////////////////
+
+.sign-in-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+  &.ant-row {
+    width: 100%;
+    z-index: 1 !important;
+  }
+
+  .left-container {
+    .content {
+      width: 70%;
+      margin-top: 50px;
+
+      h1 {
+        font-size: $font-xl;
+        font-weight: $fw700;
+        line-height: 1.3;
+
+        span {
+          color: $primaryColor;
+          // font-weight: 300;
+        }
+      }
+
+      p {
+        margin-top: 30px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  .pattern {
+    &-top {
+      position: absolute;
+      top: 0px;
+      right: 0;
+      transform: rotate(180deg);
+      z-index: 0;
+
+      svg {
+        width: 200px;
+        height: unset;
+        margin-bottom: -10px;
+      }
+    }
+
+    &-bottom {
+      position: absolute;
+      left: 0;
+      bottom: 0px;
+      z-index: 0;
+
+      svg {
+        width: 360px;
+        height: unset;
+        margin-bottom: -10px;
+      }
+    }
+  }
+
+  .ant-btn {
+    line-height: 40px;
+    height: 40px;
+    padding: 0 24px;
+    text-transform: uppercase;
+    border-radius: $borderLg;
+  }
+}
+////////////////// Sign in and Sign up ///////////////////////////
+
+.customCard {
+  background: $whiteColor;
+  border-radius: $borderLg;
+  overflow: hidden;
+  @include shadowLg();
+}
+
+////////////////////////// LOGO /////////////////////////////
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1040px;
+    // max-width: 1140px;
+  }
+}
+// @media (min-width: 992px) {
+//   .container {
+//     max-width: 960px;
+//   }
+// }
+// @media (min-width: 768px) {
+//   .container {
+//     max-width: 720px;
+//   }
+// }
+// @media (min-width: 576px) {
+//   .container {
+//     max-width: 540px;
+//   }
+// }
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+///////////////////////////////////////////////////////

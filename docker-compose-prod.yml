@@ -1,0 +1,79 @@
+version: "3.8"
+
+
+services:
+  db:
+    image: postgres:13
+    container_name: tech_note_db
+    restart: unless-stopped
+    networks:
+      - tech_note-backend-tier
+    volumes:
+      - tech_note-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=tech_note_user
+      - POSTGRES_PASSWORD=tech_note_pass
+      - POSTGRES_DB=tech_note
+
+  redis:
+    image: library/redis:5.0
+    container_name: tech_note_redis
+    restart: unless-stopped
+    networks:
+      - tech_note-backend-tier
+    volumes:
+      - tech_note-redis:/data
+
+  api:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    container_name: tech_note_api
+    image: nayan32biswas/technotesplus:stable
+    restart: unless-stopped
+    command: [
+        "gunicorn",
+        "--bind",
+        "0.0.0.0:8000",
+        "--workers",
+        "2",
+        "--worker-class",
+        "uvicorn.workers.UvicornWorker",
+        "tech_note.asgi:application",
+      ]
+    ports:
+      - 8000:8000
+    networks:
+      - tech_note-backend-tier
+    volumes:
+      - ./api/media/:/app/server/media
+      - ./api/static/:/app/server/static
+    env_file: .env
+    depends_on:
+      - db
+      - redis
+
+  worker:
+    image: nayan32biswas/technotesplus:stable
+    container_name: tech_note_worker
+    restart: unless-stopped
+    command: celery -A tech_note --app=tech_note.celeryconf:app worker --beat --scheduler django --loglevel=info
+    networks:
+      - tech_note-backend-tier
+    env_file: .env
+    volumes:
+      - ./api/media/:/app/server/media
+      - ./api/static/:/app/server/static
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  tech_note-db:
+    driver: local
+  tech_note-redis:
+    driver: local
+
+networks:
+  tech_note-backend-tier:
+    driver: bridge

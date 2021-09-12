@@ -1,0 +1,16 @@
+celery
+coverage
+django
+django-cors-headers
+django-filter
+django-redis
+django-taggit
+django-taggit-serializer
+djangorestframework
+djangorestframework-simplejwt
+gunicorn
+pillow
+psycopg2-binary
+redis
+django-celery-beat
+drf-spectacular
