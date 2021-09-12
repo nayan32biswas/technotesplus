@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+import warnings
+from django.conf import settings
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -26,6 +28,7 @@ from account import views as account_views
 router = DefaultRouter()
 
 router.register(r"password", account_views.PasswordViewSet)
+router.register(r"users", account_views.UserListViewSet)
 
 
 urlpatterns = [
@@ -38,3 +41,18 @@ urlpatterns = [
     path("api/me/", account_views.UserViewSet.as_view(), name="me"),
     path("api", include(router.urls)),
 ]
+
+
+if settings.DEBUG is True:
+    from django.conf.urls.static import static
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+    try:
+        import debug_toolbar
+    except ImportError:
+        warnings("The debug toolbar was not installed.")
+    else:
+        urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
+
+    urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

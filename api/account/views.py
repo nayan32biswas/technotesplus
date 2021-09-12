@@ -1,13 +1,15 @@
-from rest_framework import status, generics, permissions, viewsets
+from rest_framework import mixins, status, generics, viewsets, filters as drf_filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
+from api.core.paginations import DefaultPagination
 from . import serializers
 from . import models
 
 
 class RegistrationAPIView(generics.GenericAPIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [AllowAny]
     serializer_class = serializers.RegistrationSerializer
 
     def post(self, request, *args, **kwargs):
@@ -23,7 +25,7 @@ class RegistrationAPIView(generics.GenericAPIView):
 
 class UserViewSet(generics.RetrieveUpdateAPIView):
     queryset = models.User.objects.none()
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = serializers.UserDetailSerializer
 
     def get_object(self):
@@ -32,11 +34,9 @@ class UserViewSet(generics.RetrieveUpdateAPIView):
 
 class PasswordViewSet(viewsets.GenericViewSet):
     queryset = models.User.objects.none()
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
-    @action(
-        detail=False, methods=["post"], permission_classes=[permissions.IsAuthenticated]
-    )
+    @action(detail=False, methods=["post"], permission_classes=[IsAuthenticated])
     def password_reset(self, *args, **kwargs):
         serializer = serializers.PasswordChangeSerializer(data=self.request.data)
         if serializer.is_valid():
@@ -47,3 +47,15 @@ class PasswordViewSet(viewsets.GenericViewSet):
                 user.save()
                 return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+
+
+class UserListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    queryset = models.User.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = serializers.UserDetailSerializer
+    pagination_class = DefaultPagination
+    search_fields = ("username", "email", "first_name", "last_name")
+    filter_backends = [drf_filters.SearchFilter]
+
+    def get_object(self):
+        return self.request.user
