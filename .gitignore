@@ -19,9 +19,8 @@ pip-delete-this-directory.txt
 # ============================== Django ==============================
 *.sqlite3
 # Staticfiles
-app/staticfiles/media/**
-app/staticfiles/static/**
-app/staticfiles/debug_log/**
+server/media/**
+server/static/**
 #celery
 celerybeat-schedule.*
 # Unit test / coverage reports
