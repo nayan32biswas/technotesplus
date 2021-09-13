@@ -26,7 +26,7 @@ services:
 
   api:
     build:
-      context: ./api
+      context: ./server
       dockerfile: ./Dockerfile
     container_name: tech_note_api
     image: nayan32biswas/technotesplus:stable
@@ -46,8 +46,8 @@ services:
     networks:
       - tech_note-backend-tier
     volumes:
-      - ./api/media/:/app/server/media
-      - ./api/static/:/app/server/static
+      - ./server/media/:/app/server/media
+      - ./server/static/:/app/server/static
     env_file: .env
     depends_on:
       - db
@@ -62,8 +62,8 @@ services:
       - tech_note-backend-tier
     env_file: .env
     volumes:
-      - ./api/media/:/app/server/media
-      - ./api/static/:/app/server/static
+      - ./server/media/:/app/server/media
+      - ./server/static/:/app/server/static
     depends_on:
       - db
       - redis

@@ -25,7 +25,7 @@ services:
 
   api:
     build:
-      context: ./api
+      context: ./server
       dockerfile: ./Dockerfile
       args:
         PACKAGE_TYPE: -dev
@@ -38,7 +38,7 @@ services:
     networks:
       - tech_note-backend-tier
     volumes:
-      - ./api/:/app/server/
+      - ./server/:/app/server/
     env_file: .env
     depends_on:
       - db
@@ -53,7 +53,7 @@ services:
       - tech_note-backend-tier
     env_file: .env
     volumes:
-      - ./api/:/app/server/
+      - ./server/:/app/server/
     depends_on:
       - db
       - redis
