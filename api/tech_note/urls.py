@@ -24,11 +24,13 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from account import views as account_views
+from note import views as note_views
 
 router = DefaultRouter()
 
 router.register(r"password", account_views.PasswordViewSet)
 router.register(r"users", account_views.UserListViewSet)
+router.register(r"note", note_views.NoteViewSet)
 
 
 urlpatterns = [
@@ -39,7 +41,7 @@ urlpatterns = [
         "api/signup/", account_views.RegistrationAPIView.as_view(), name="registration"
     ),
     path("api/me/", account_views.UserViewSet.as_view(), name="me"),
-    path("api", include(router.urls)),
+    path("api/", include(router.urls)),
 ]
 
 

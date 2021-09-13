@@ -1,11 +1,15 @@
+from django.contrib.auth import get_user_model
 from rest_framework import status, permissions, viewsets, filters as drf_filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
+
 from django_filters import rest_framework as filters
 
-from api.core.paginations import DefaultPagination
+from core.paginations import DefaultPagination
 from . import serializers
 from . import models
+
+User = get_user_model()
 
 
 class TagsFilter(filters.CharFilter):
@@ -28,6 +32,7 @@ class NoteFilter(filters.FilterSet):
 
 
 class NoteViewSet(viewsets.ModelViewSet):
+    lookup_field = "slug"
     queryset = models.Note.objects.none()
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = serializers.NoteSerializer
@@ -40,12 +45,48 @@ class NoteViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return self.request.user.notes.all()
 
+    def get_serializer_class(self):
+        return (
+            serializers.NoteListSerializer
+            if self.action == "list"
+            else serializers.NoteSerializer
+        )
+
     @action(detail=True, methods=["post"])
-    def add_user(self, request):
+    def add_user(self, request, *args, **kwargs):
         """
         users: [<username>,]
         """
+        username_list = request.data.get("users")
+        users = User.objects.filter(username__in=username_list)
+        note = self.get_object()
 
-        return Response(
-            data={"message": "User added."}, status=status.HTTP_400_BAD_REQUEST
+        existing_users = list(note.share_with.values_list("id", flat=True)) + [
+            request.user.id
+        ]
+        users = users.exclude(id__in=existing_users)
+
+        for user in users:
+            models.ShareWith.objects.create(
+                user=user,
+                note=note,
+            )
+        # note.share_with.add(*list(users.values_list("id", flat=True)))
+        return Response(data={"message": "User added."}, status=status.HTTP_201_CREATED)
+
+
+class ShareNoteReadOnlyView(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Note.objects.none()
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = serializers.NoteSerializer
+    pagination_class = DefaultPagination
+
+    def get_queryset(self):
+        return self.request.user.notes.all()
+
+    def get_serializer_class(self):
+        return (
+            serializers.NoteListSerializer
+            if self.action == "list"
+            else serializers.NoteSerializer
         )

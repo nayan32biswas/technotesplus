@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from api.core.paginations import DefaultPagination
+from core.paginations import DefaultPagination
 from . import serializers
 from . import models
 
@@ -52,7 +52,7 @@ class PasswordViewSet(viewsets.GenericViewSet):
 class UserListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = models.User.objects.all()
     permission_classes = (IsAuthenticated,)
-    serializer_class = serializers.UserDetailSerializer
+    serializer_class = serializers.UserMinimalSerializer
     pagination_class = DefaultPagination
     search_fields = ("username", "email", "first_name", "last_name")
     filter_backends = [drf_filters.SearchFilter]

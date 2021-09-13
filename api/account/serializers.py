@@ -48,6 +48,15 @@ class UserDetailSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
+class UserMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = (
+            "full_name",
+            "username",
+        )
+
+
 class PasswordChangeSerializer(serializers.Serializer):
     current_password = serializers.CharField(
         min_length=8,
