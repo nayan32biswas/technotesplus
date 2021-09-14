@@ -43,7 +43,7 @@ class NoteViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend, drf_filters.SearchFilter]
 
     def get_queryset(self):
-        return self.request.user.notes.all()
+        return self.request.user.notes.all().prefetch_related("tags")
 
     def get_serializer_class(self):
         return (
@@ -76,13 +76,23 @@ class NoteViewSet(viewsets.ModelViewSet):
 
 
 class ShareNoteReadOnlyView(viewsets.ReadOnlyModelViewSet):
+    lookup_field = "slug"
     queryset = models.Note.objects.none()
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = serializers.NoteSerializer
     pagination_class = DefaultPagination
 
     def get_queryset(self):
-        return self.request.user.notes.all()
+        return self.request.user.share_notes.all().prefetch_related("tags")
+
+    def retrieve(self, request, *args, **kwargs):
+        response = super().retrieve(request, *args, **kwargs)
+        obj = self.get_object()
+        share = models.ShareWith.objects.get(note=obj, user=request.user)
+        share.view += 1
+        share.save()
+
+        return response
 
     def get_serializer_class(self):
         return (

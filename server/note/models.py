@@ -7,6 +7,8 @@ from django.utils.text import Truncator
 
 from taggit.managers import TaggableManager
 
+from core.tasks import create_scheduler
+from core.email import send_share_email
 from core.utils import create_slug
 
 User = get_user_model()
@@ -52,8 +54,12 @@ class ShareWith(models.Model):
     class Meta:
         unique_together = ("user", "note")
 
+    def __str__(self) -> str:
+        return f"{self.note} :: {self.user} :: {self.view}"
+
 
 @receiver(post_save, sender=ShareWith)
-def share_with_post_save_receiver(sender, instance, **kwargs):
-    print("send email to user")
-    pass
+def share_with_post_save_receiver(sender, instance, created, **kwargs):
+    if created:
+        send_share_email(instance.id)
+        create_scheduler()

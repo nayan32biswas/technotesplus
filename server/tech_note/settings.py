@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "=bp6e_3a$$o9efkum26orcb1he4sa+3_aatep^p0(dsa023ihf"
+SECRET_KEY = os.environ.get("SECRET_KEY", "demo-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,6 +42,7 @@ DEFAULT_APPS = [
 ]
 
 LOCAL_APPS = [
+    "core",
     "account",
     "note",
 ]
@@ -176,5 +177,20 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
+API_BROWSER_HOST = os.environ.get("API_BROWSER_HOST")
+RESEND_NOTIFICATION_DURATION = 12  # resend notification after n hour
+NOTE_SHARE_NOTIFICATION_AGE = timedelta(days=10)
+
+SENDER_EMAIL = os.environ.get("SENDER_EMAIL")
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_ALWAYS_EAGER = not CELERY_BROKER_URL
 
 TAGGIT_CASE_INSENSITIVE = True

@@ -8,6 +8,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 class UserManager(BaseUserManager):
     def create_user(
         self,
+        email="",
         username="",
         password=None,
         is_staff=False,
@@ -18,6 +19,7 @@ class UserManager(BaseUserManager):
             raise ValueError("User should have password.")
 
         user = self.model(
+            email=email,
             username=username,
             is_active=is_active,
             is_staff=is_staff,

@@ -31,6 +31,7 @@ router = DefaultRouter()
 router.register(r"password", account_views.PasswordViewSet)
 router.register(r"users", account_views.UserListViewSet)
 router.register(r"note", note_views.NoteViewSet)
+router.register(r"share-note", note_views.ShareNoteReadOnlyView)
 
 
 urlpatterns = [

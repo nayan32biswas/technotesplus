@@ -23,7 +23,8 @@ class NoteSerializer(TaggitSerializer, serializers.ModelSerializer):
         extra_kwargs = {"slug": {"read_only": True}}
 
 
-class NoteListSerializer(serializers.ModelSerializer):
+class NoteListSerializer(TaggitSerializer, serializers.ModelSerializer):
+    tags = TagListSerializerField()
     owner = UserMinimalSerializer(read_only=True)
 
     class Meta:
@@ -32,5 +33,6 @@ class NoteListSerializer(serializers.ModelSerializer):
             "name",
             "short_content",
             "slug",
+            "tags",
             "owner",
         ]
