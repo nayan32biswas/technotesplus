@@ -11,7 +11,7 @@ const routes: Array<RouteConfig> = [
     name: "Home",
     component: () => import("../views/Home.vue"),
     meta: {
-      accessLevel: null,
+      accessLevel: UserRoles.PRIVATE,
     },
   },
   {
@@ -31,7 +31,7 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/profile",
+    path: "/profile/",
     name: "Profile",
     component: () => import("../views/Profile.vue"),
     meta: {
@@ -50,14 +50,6 @@ const routes: Array<RouteConfig> = [
     path: "/note/:slug",
     name: "NoteDetails",
     component: () => import("../views/NoteDetails.vue"),
-    meta: {
-      accessLevel: UserRoles.PRIVATE,
-    },
-  },
-  {
-    path: "/note/:slug/update",
-    name: "NoteUpdate",
-    component: () => import("../views/NoteUpdate.vue"),
     meta: {
       accessLevel: UserRoles.PRIVATE,
     },

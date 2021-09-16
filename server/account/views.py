@@ -46,7 +46,7 @@ class PasswordViewSet(viewsets.GenericViewSet):
                 user.set_password(data["new_password"])
                 user.save()
                 return Response(status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+        return Response(status=status.HTTP_403_FORBIDDEN, data=serializer.errors)
 
 
 class UserListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):

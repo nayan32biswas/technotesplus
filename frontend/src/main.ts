@@ -3,15 +3,26 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
+import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
+import { ValidationObserver, setInteractionMode } from "vee-validate";
+
 import { namespaced } from "./store/utils";
 import { NS_COMMON } from "./store/namespace.names";
 import { GET_TOKEN_FROM_LOCAL_STORE } from "./store/action.names";
 import { ACCESS_LEVEL } from "./store/getter.names";
 
+setInteractionMode("passive");
+Vue.component("ValidationProvider", ValidationProvider);
+Vue.component("ValidationObserver", ValidationObserver);
+
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+
 function checkAuth(to: any, from: any, next: any) {
   const accessLevel = store.getters[namespaced(NS_COMMON, ACCESS_LEVEL)];
   if (to.meta?.accessLevel !== null) {
-    if (accessLevel !== null) {
+    if (accessLevel) {
       if (to.meta?.accessLevel <= accessLevel) {
         next();
       } else {

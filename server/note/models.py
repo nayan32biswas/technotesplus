@@ -37,7 +37,7 @@ class Note(models.Model):
 
     @cached_property
     def short_content(self):
-        return Truncator(self.content).words(200, html=True, truncate=" ...")
+        return Truncator(self.content).words(20, html=True, truncate=" ...")
 
     def save(self, *args, **kwargs):
         if not self.id and not self.slug:
