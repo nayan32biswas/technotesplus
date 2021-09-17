@@ -10,7 +10,7 @@
         v-for="note in notes"
         :key="'note-' + note.slug"
       >
-        <NoteCard :note="note" :details-page="detailsPage" />
+        <NoteCard :note="note" :details-page="detailsPage" class="mt-2" />
       </b-col>
     </b-row>
   </div>

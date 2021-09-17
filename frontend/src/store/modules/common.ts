@@ -289,10 +289,10 @@ const actions: ActionTree<any, any> = {
         });
     });
   },
-  [FETCH_SHARE_NOTES]({ getters }): Promise<any> {
+  [FETCH_SHARE_NOTES]({ getters }, { filter }): Promise<any> {
     return new Promise((resolve, reject) => {
       axios
-        .get(SHARE_NOTE_URL, {
+        .get(`${SHARE_NOTE_URL}${buildParams(filter)}`, {
           headers: {
             ...getters[AUTH_HEADER],
           },

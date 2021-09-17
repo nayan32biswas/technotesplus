@@ -10,9 +10,7 @@ services:
     volumes:
       - tech_note-db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
 
   redis:
     image: library/redis:5.0

@@ -1,25 +1,30 @@
 <template>
   <div v-if="note" class="container mt-3">
-    <b-form-input
-      v-model="filter.search"
-      debounce="300"
-      placeholder="Enter query"
-    ></b-form-input>
-    <note-list :notes="note.results" details-page="NoteDetails" />
-    <b-pagination
-      first-number
-      last-number
-      pills
-      :value="page"
-      :per-page="filter.limit"
-      :total-rows="note.count"
-      align="center"
-      :hide-ellipsis="true"
-      prev-text="<"
-      next-text=">"
-      :number-of-pages="pages"
-      @change="handlePageChange"
-    ></b-pagination>
+    <div class="mt-2 mb-3 custom-search-box">
+      <b-form-input
+        v-model="filter.search"
+        debounce="300"
+        placeholder="Enter query"
+      ></b-form-input>
+    </div>
+    <div>
+      <note-list :notes="note.results" details-page="NoteDetails" />
+      <b-pagination
+        first-number
+        last-number
+        pills
+        :value="page"
+        :per-page="filter.limit"
+        :total-rows="note.count"
+        align="center"
+        :hide-ellipsis="true"
+        prev-text="<"
+        next-text=">"
+        :number-of-pages="pages"
+        @change="handlePageChange"
+        class="mt-3"
+      ></b-pagination>
+    </div>
   </div>
 </template>
 

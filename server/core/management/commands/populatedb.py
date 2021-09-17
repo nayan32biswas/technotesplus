@@ -57,7 +57,7 @@ def share_notes():
 
 def populate_database():
     create_users(), print("User Created")
-    list(create_notes())
+    list(create_notes()), print("Notes Created")
     add_tags()
     share_notes()
 

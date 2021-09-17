@@ -1,7 +1,20 @@
 <template>
-  <div v-if="note">
-    <div>{{ note.name }}</div>
-    <div v-html="note.content"></div>
+  <div v-if="note" class="container mt-3">
+    <div>
+      <h4>Name: {{ note.name }}</h4>
+    </div>
+    <div class="content">
+      <div v-html="note.content"></div>
+    </div>
+    <div>
+      <span>Tags: </span>
+      <span
+        v-for="tag in note.tags"
+        class="tags"
+        :key="note.slug + '-tag-' + tag"
+        >{{ tag }}</span
+      >
+    </div>
   </div>
 </template>
 

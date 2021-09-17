@@ -94,8 +94,12 @@ class ShareNoteReadOnlyView(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.NoteSerializer
     pagination_class = DefaultPagination
 
+    filterset_class = NoteFilter
+    search_fields = ("name",)
+    filter_backends = [filters.DjangoFilterBackend, drf_filters.SearchFilter]
+
     def get_queryset(self):
-        return self.request.user.share_notes.all().prefetch_related("tags")
+        return self.request.user.share_notes.all().distinct().prefetch_related("tags")
 
     def retrieve(self, request, *args, **kwargs):
         response = super().retrieve(request, *args, **kwargs)

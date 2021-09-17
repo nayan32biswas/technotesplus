@@ -1,20 +1,43 @@
 <template>
-  <div v-if="note">
+  <div v-if="note" class="container mt-3">
     <div v-if="!editNote">
-      <div>
-        <b-button @click.prevent="editNote = true">Edit</b-button>
-        <b-button @click.prevent="deleteNoteSubmit">Delete</b-button>
-        <b-button @click.prevent="showShareModal = true">Share</b-button>
-      </div>
-      <div>{{ note.name }}</div>
-      <div v-html="note.content"></div>
+      <b-row>
+        <b-col xl="10" lg="10" md="8" sm="8" cols="8">
+          <div>
+            <h4>Name: {{ note.name }}</h4>
+          </div>
+          <div class="content">
+            <div v-html="note.content"></div>
+          </div>
+          <div>
+            <span>Tags: </span>
+            <span
+              v-for="tag in note.tags"
+              class="tags"
+              :key="note.slug + '-tag-' + tag"
+              >{{ tag }}</span
+            >
+          </div>
+        </b-col>
+        <b-col xl="2" lg="2" md="4" sm="4" cols="4">
+          <div>
+            <b-button @click.prevent="editNote = true">Edit</b-button>
+          </div>
+          <div>
+            <b-button @click.prevent="deleteNoteSubmit">Delete</b-button>
+          </div>
+          <div>
+            <b-button @click.prevent="showShareModal = true">Share</b-button>
+          </div>
+        </b-col>
+      </b-row>
     </div>
     <div v-else>
       <NoteForm :note="note" @cancel="cancel" @saved="saved" />
     </div>
     <b-modal centered hide-footer hide-header v-model="showShareModal">
       <div>
-        <h4>Share Note With Other user</h4>
+        <h4 class="text-center">Share Note With Other user</h4>
         <v-select
           @search="handleUserSearch"
           :options="userSearch"
@@ -27,7 +50,7 @@
         >
         </v-select>
         <div>
-          <b-button type="submit" @click.prevent="shareNoteSubmit"
+          <b-button type="submit" @click.prevent="shareNoteSubmit" class="mt-2"
             >Share</b-button
           >
         </div>
@@ -40,7 +63,7 @@
             :responsive="true"
             :items="note.viewers"
             :fields="viewerFields"
-            class="justify-content-center mb-1"
+            class="justify-content-center mb-1 mt-3"
           >
             <template #cell(Remove)="data">
               <b-button

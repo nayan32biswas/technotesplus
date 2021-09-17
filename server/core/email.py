@@ -22,7 +22,7 @@ def send_share_email_async(share_with_id):
 
     message = f"""
     {share.note.owner.email} shared a document With you.
-    visit: {API_BROWSER_HOST} # TODO: url
+    visit: {API_BROWSER_HOST}/shared-note/{share.note.slug}/
     """
 
     content = Content("text/plain", message)

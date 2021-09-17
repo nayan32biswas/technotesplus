@@ -1,35 +1,41 @@
 <template>
-  <div>
+  <div
+    class="d-flex align-items-center justify-content-center signup-container"
+  >
     <ValidationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(userSubmit)">
         <ValidationProvider v-slot="{ errors, touched }" rules="required|email">
           <div>
-            <label>Email*</label>
-            <input
-              type="email"
-              placeholder="Enter Email"
-              name="Email"
-              v-model="signupForm.email"
-            />
+            <label>Email</label>
+            <div>
+              <input
+                type="email"
+                placeholder="Enter Email"
+                name="Email"
+                v-model="signupForm.email"
+              />
+            </div>
+            <span v-if="touched && errors.length > 0" class="text-danger">{{
+              errors[0]
+            }}</span>
           </div>
-          <span v-if="touched && errors.length > 0" class="text-danger">{{
-            errors[0]
-          }}</span>
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors, touched }" rules="required">
-          <div>
-            <label>Username*</label>
-            <input
-              type="text"
-              placeholder="Enter Username"
-              name="Username"
-              v-model="signupForm.username"
-            />
+          <div class="mt-2">
+            <label>Username</label>
+            <div>
+              <input
+                type="text"
+                placeholder="Enter Username"
+                name="Username"
+                v-model="signupForm.username"
+              />
+            </div>
+            <span v-if="touched && errors.length > 0" class="text-danger">{{
+              errors[0]
+            }}</span>
           </div>
-          <span v-if="touched && errors.length > 0" class="text-danger">{{
-            errors[0]
-          }}</span>
         </ValidationProvider>
 
         <ValidationProvider
@@ -37,18 +43,20 @@
           rules="required|min:8"
           vid="confirm_password"
         >
-          <div>
+          <div class="mt-2">
             <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter Password"
-              name="Password"
-              v-model="signupForm.password"
-            />
+            <div>
+              <input
+                type="password"
+                placeholder="Enter Password"
+                name="Password"
+                v-model="signupForm.password"
+              />
+            </div>
+            <span v-if="touched && errors.length > 0" class="text-danger">{{
+              errors[0]
+            }}</span>
           </div>
-          <span v-if="touched && errors.length > 0" class="text-danger">{{
-            errors[0]
-          }}</span>
         </ValidationProvider>
 
         <ValidationProvider
@@ -56,22 +64,24 @@
           rules="required|confirmed:confirm_password"
           vid="password2"
         >
-          <div>
+          <div class="mt-2">
             <label>Confirm Password</label>
-            <input
-              type="password"
-              placeholder="Enter Confirm Password"
-              name="Confirm Password"
-              v-model="signupForm.confirm_password"
-            />
+            <div>
+              <input
+                type="password"
+                placeholder="Enter Confirm Password"
+                name="Confirm Password"
+                v-model="signupForm.confirm_password"
+              />
+            </div>
+            <span v-if="touched && errors.length > 0" class="text-danger">{{
+              errors[0]
+            }}</span>
           </div>
-          <span v-if="touched && errors.length > 0" class="text-danger">{{
-            errors[0]
-          }}</span>
         </ValidationProvider>
 
-        <div>
-          <button type="submit">Create Account</button>
+        <div class="mt-3">
+          <b-button type="submit">Create Account</b-button>
         </div>
       </b-form>
     </ValidationObserver>
@@ -113,4 +123,14 @@ export default class Signup extends Vue {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.signup-container {
+  margin-top: 10%;
+
+  form {
+    border: 1px solid;
+    padding: 50px;
+    border-radius: 2%;
+  }
+}
+</style>

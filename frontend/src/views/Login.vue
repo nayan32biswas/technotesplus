@@ -1,47 +1,55 @@
 <template>
   <div>
-    <ValidationObserver v-slot="{ handleSubmit }">
-      <b-form @submit.prevent="handleSubmit(loginSubmit)">
-        <ValidationProvider v-slot="{ errors, touched }" rules="required">
-          <div>
-            <label>Username</label>
-            <input
-              type="text"
-              placeholder="Enter Username"
-              name="Username"
-              v-model="loginForm.username"
-            />
+    <div
+      class="d-flex align-items-center justify-content-center login-container"
+    >
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <b-form @submit.prevent="handleSubmit(loginSubmit)">
+          <ValidationProvider v-slot="{ errors, touched }" rules="required">
+            <div>
+              <label>Username</label>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter Username"
+                  name="Username"
+                  v-model="loginForm.username"
+                />
+              </div>
+              <span v-if="touched && errors.length > 0" class="text-danger">{{
+                errors[0]
+              }}</span>
+            </div>
+          </ValidationProvider>
+
+          <ValidationProvider v-slot="{ errors, touched }" rules="required">
+            <div class="mt-2">
+              <label>Password</label>
+              <div>
+                <input
+                  type="password"
+                  placeholder="Enter Password"
+                  name="Password"
+                  v-model="loginForm.password"
+                />
+              </div>
+              <span v-if="touched && errors.length > 0" class="text-danger">{{
+                errors[0]
+              }}</span>
+            </div>
+          </ValidationProvider>
+
+          <div v-if="loginErrorMessage" class="text-danger">
+            {{ loginErrorMessage }}
           </div>
-          <span v-if="touched && errors.length > 0" class="text-danger">{{
-            errors[0]
-          }}</span>
-        </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors, touched }" rules="required">
-          <div>
-            <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter Password"
-              name="Password"
-              v-model="loginForm.password"
-            />
+          <div class="mt-3">
+            <b-button type="submit">Login</b-button>
           </div>
-          <span v-if="touched && errors.length > 0" class="text-danger">{{
-            errors[0]
-          }}</span>
-        </ValidationProvider>
-
-        <div v-if="loginErrorMessage" class="text-danger">
-          {{ loginErrorMessage }}
-        </div>
-
-        <div>
-          <b-button type="submit">Login</b-button>
-        </div>
-      </b-form>
-    </ValidationObserver>
-    <router-link :to="{ name: 'Signup' }">Signup</router-link>
+        </b-form>
+      </ValidationObserver>
+      <router-link :to="{ name: 'Signup' }">Signup</router-link>
+    </div>
   </div>
 </template>
 
@@ -77,4 +85,14 @@ export default class Login extends Vue {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.login-container {
+  margin-top: 10%;
+
+  form {
+    border: 1px solid;
+    padding: 50px;
+    border-radius: 2%;
+  }
+}
+</style>

@@ -5,20 +5,22 @@
         <ValidationProvider v-slot="{ errors, touched }" rules="required">
           <div>
             <label>Name</label>
-            <input
-              type="text"
-              placeholder="Enter Name"
-              name="Name"
-              v-model="noteForm.name"
-            />
+            <div>
+              <input
+                type="text"
+                placeholder="Enter Name"
+                name="Name"
+                v-model="noteForm.name"
+              />
+            </div>
+            <span v-if="touched && errors.length > 0" class="text-danger">{{
+              errors[0]
+            }}</span>
           </div>
-          <span v-if="touched && errors.length > 0" class="text-danger">{{
-            errors[0]
-          }}</span>
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors, touched }" rules="required">
-          <div>
+          <div class="mt-3">
             <label>Content</label>
             <vue-editor v-model="noteForm.content" name="Content"></vue-editor>
           </div>
@@ -28,17 +30,19 @@
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors, touched }" rules="required">
-          <div>
+          <div class="mt-2">
             <label>Tags(Use "," Comma after one tag)</label>
             <b-form-tags v-model="noteForm.tags" separator=","></b-form-tags>
+            <span v-if="touched && errors.length > 0" class="text-danger">{{
+              errors[0]
+            }}</span>
           </div>
-          <span v-if="touched && errors.length > 0" class="text-danger">{{
-            errors[0]
-          }}</span>
         </ValidationProvider>
 
-        <div>
-          <b-button @click.prevent="$emit('cancel')">Cancel</b-button>
+        <div class="mt-2">
+          <b-button @click.prevent="$emit('cancel')" class="mr-1"
+            >Cancel</b-button
+          >
           <b-button type="submit">Save</b-button>
         </div>
       </b-form>
