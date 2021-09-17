@@ -1,7 +1,9 @@
 // import axios from "axios";
 import axios from "axios";
+import { AxiosError } from "axios";
 import { GetterTree, ActionTree, MutationTree, Module } from "vuex";
 
+import { UserRoles } from "../../utils/permissions";
 import {
   LOGIN,
   SIGNUP,
@@ -10,12 +12,14 @@ import {
   UPDATE_PROFILE,
   CHANGE_PASSWORD,
   GET_TOKEN_FROM_LOCAL_STORE,
+  FETCH_PUBLIC_USER,
   FETCH_NOTES,
   FETCH_NOTE_DETAILS,
   CREATE_OR_UPDATE_NOTE,
   DELETE_NOTE,
   FETCH_SHARE_NOTES,
   FETCH_SHARE_NOTE_DETAILS,
+  SHARE_NOTE,
 } from "../action.names";
 import {
   AUTHENTICATED,
@@ -28,14 +32,12 @@ import {
   LOGIN_URL,
   PROFILE_URL,
   CHANGE_PASSWORD_URL,
+  FETCH_USERS_URL,
   NOTE_URL,
-} from "../endpoints";
-import { UserRoles } from "../../utils/permissions";
-import { AxiosError } from "axios";
-import {
   NOTE_DETAIL_URL,
   SHARE_NOTE_URL,
   SHARE_NOTE_DETAIL_URL,
+  SHARE_NOTE_WITH_USER_URL,
 } from "../endpoints";
 import {
   SET_TOKEN,
@@ -44,6 +46,8 @@ import {
   CLEAR_PROFILE_DATA,
 } from "../mutation.names";
 import { buildParams } from "../utils";
+import { REMOVE_NOTE_VIEWSER_URL } from "../endpoints";
+import { REMOVE_NOTE_USER } from "../action.names";
 
 const state: any = {
   user: {},
@@ -165,6 +169,23 @@ const actions: ActionTree<any, any> = {
         });
     });
   },
+  [FETCH_PUBLIC_USER]({ commit, getters }, query): Promise<any> {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`${FETCH_USERS_URL}${buildParams(query)}`, {
+          headers: {
+            ...getters[AUTH_HEADER],
+          },
+        })
+        .then(({ data }) => {
+          commit(SET_PROFILE_DATA, data);
+          resolve(data);
+        })
+        .catch((e: AxiosError) => {
+          reject(e);
+        });
+    });
+  },
 
   [CREATE_OR_UPDATE_NOTE]({ getters }, { payload, slug }): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -236,7 +257,38 @@ const actions: ActionTree<any, any> = {
         });
     });
   },
-
+  [SHARE_NOTE]({ getters }, { slug, payload }): Promise<any> {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(SHARE_NOTE_WITH_USER_URL(slug), payload, {
+          headers: {
+            ...getters[AUTH_HEADER],
+          },
+        })
+        .then(({ data }) => {
+          resolve(data);
+        })
+        .catch((e: AxiosError) => {
+          reject(e);
+        });
+    });
+  },
+  [REMOVE_NOTE_USER]({ getters }, { slug, payload }): Promise<any> {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(REMOVE_NOTE_VIEWSER_URL(slug), payload, {
+          headers: {
+            ...getters[AUTH_HEADER],
+          },
+        })
+        .then(({ data }) => {
+          resolve(data);
+        })
+        .catch((e: AxiosError) => {
+          reject(e);
+        });
+    });
+  },
   [FETCH_SHARE_NOTES]({ getters }): Promise<any> {
     return new Promise((resolve, reject) => {
       axios

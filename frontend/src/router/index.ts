@@ -63,6 +63,14 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    path: "/shared-note/:slug",
+    name: "ShareWithMeNoteDetails",
+    component: () => import("../views/ShareWithMeNoteDetails.vue"),
+    meta: {
+      accessLevel: UserRoles.PRIVATE,
+    },
+  },
+  {
     path: "*",
     name: "404",
     component: () => import("../views/404.vue"),

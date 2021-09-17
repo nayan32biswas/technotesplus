@@ -10,6 +10,11 @@ class NoteSerializer(TaggitSerializer, serializers.ModelSerializer):
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
     owner_profile = UserMinimalSerializer(read_only=True, source="owner")
 
+    viewers = serializers.SerializerMethodField()
+
+    def get_viewers(self, instance):
+        return UserMinimalSerializer(instance.share_with.all(), many=True).data
+
     class Meta:
         model = models.Note
         fields = [
@@ -19,6 +24,7 @@ class NoteSerializer(TaggitSerializer, serializers.ModelSerializer):
             "slug",
             "owner",
             "owner_profile",
+            "viewers",
         ]
         extra_kwargs = {"slug": {"read_only": True}}
 

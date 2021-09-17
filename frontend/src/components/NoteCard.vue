@@ -10,7 +10,7 @@
     >
       <b-card-text>{{ note.short_content }} </b-card-text>
       <router-link
-        :to="{ name: 'NoteDetails', params: { slug: note.slug } }"
+        :to="{ name: detailsPage, params: { slug: note.slug } }"
         class="details-btn"
         ><b-button class="primary">Details</b-button></router-link
       >
@@ -24,6 +24,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
 export default class NoteCard extends Vue {
   @Prop() note!: any;
+  @Prop() detailsPage!: string;
 }
 </script>
 

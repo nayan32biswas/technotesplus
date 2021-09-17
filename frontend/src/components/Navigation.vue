@@ -10,6 +10,11 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto ml-2">
           <b-nav-item v-if="authenticated">
+            <router-link :to="{ name: 'ShareWithMeNote' }"
+              >Share With Me</router-link
+            >
+          </b-nav-item>
+          <b-nav-item v-if="authenticated">
             <router-link :to="{ name: 'NoteCreate' }">Create Note</router-link>
           </b-nav-item>
           <b-nav-item v-if="authenticated">

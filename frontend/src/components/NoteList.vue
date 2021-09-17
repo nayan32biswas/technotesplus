@@ -10,7 +10,7 @@
         v-for="note in notes"
         :key="'note-' + note.slug"
       >
-        <NoteCard :note="note" />
+        <NoteCard :note="note" :details-page="detailsPage" />
       </b-col>
     </b-row>
   </div>
@@ -27,6 +27,7 @@ import NoteCard from "./NoteCard.vue";
 })
 export default class NoteList extends Vue {
   @Prop() notes!: any[];
+  @Prop() detailsPage!: string;
 }
 </script>
 

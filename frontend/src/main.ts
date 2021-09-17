@@ -12,6 +12,8 @@ import { NS_COMMON } from "./store/namespace.names";
 import { GET_TOKEN_FROM_LOCAL_STORE } from "./store/action.names";
 import { ACCESS_LEVEL } from "./store/getter.names";
 
+import "vue-select/src/scss/vue-select.scss";
+
 setInteractionMode("passive");
 Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);

@@ -53,6 +53,20 @@ class NoteViewSet(viewsets.ModelViewSet):
         )
 
     @action(detail=True, methods=["post"])
+    def remove_user(self, request, *args, **kwargs):
+        """
+        user: <username>
+        """
+        username = request.data.get("user")
+        note = self.get_object()
+        if username:
+            note.share.filter(user__username=username).delete()
+
+        return Response(
+            data={"message": "Remove User."}, status=status.HTTP_201_CREATED
+        )
+
+    @action(detail=True, methods=["post"])
     def add_user(self, request, *args, **kwargs):
         """
         users: [<username>,]
