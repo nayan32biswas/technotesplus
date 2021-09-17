@@ -15,7 +15,7 @@ DJANGO_SETTINGS_MODULE=tech_note.development
 SENDGRID_API_KEY=<YUOR SENDGRID_API_KEY>
 SENDER_EMAIL=example@email.com
 ```
-- Execute `start-project.sh` is sh was supported.
+- Execute `start-project.sh` if supported `shell` **Run Project with single command**.
 - `docker-compose build api` First build the docker image.
 - `docker-compose up api worker` Start backend server.
 - `docker-compose run --rm api coverage run manage.py test --noinput` Run tests for backend server
@@ -25,3 +25,4 @@ SENDER_EMAIL=example@email.com
 - Open another terminal and navigate to the frontend directory.
 - `yarn install`
 - `VUE_APP_DEVHOST=http://localhost:8000 yarn serve`
+- Visit `http://localhost:8080`
