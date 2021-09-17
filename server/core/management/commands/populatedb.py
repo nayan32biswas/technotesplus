@@ -9,6 +9,8 @@ from core.utils import rand_str
 fake = Faker()
 User = get_user_model()
 
+tags = ["One", "Two", "Three", "Four", "Five"]
+
 
 def create_users():
     for _ in range(10):
@@ -36,6 +38,11 @@ def create_notes():
         )
 
 
+def add_tags():
+    for note in Note.objects.all():
+        note.tags.add(*random.sample(tags, random.randint(1, 4)))
+
+
 def share_notes():
     for note in Note.objects.order_by("?")[:20]:
         users = set(
@@ -51,6 +58,7 @@ def share_notes():
 def populate_database():
     create_users(), print("User Created")
     list(create_notes())
+    add_tags()
     share_notes()
 
 

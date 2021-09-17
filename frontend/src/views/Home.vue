@@ -33,7 +33,7 @@ import { totalPages } from "../utils/utils";
 import { ObjectType } from "@/type/additionalApi.types";
 
 export const DEFAULT_PARAMS: any = {
-  limit: 2,
+  limit: 10,
   offset: 0,
   search: "",
 };
