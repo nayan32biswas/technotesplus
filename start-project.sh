@@ -23,4 +23,6 @@ echo "${Green}Copy frontend build file${Color_Off}"
 
 cd -
 
-# docker-compose up api worker -d
+docker-compose up api worker -d
+
+echo "\n\nVisit: ${Green}localhost:8000${Color_Off}"
